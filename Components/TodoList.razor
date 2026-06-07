@@ -1,48 +1,45 @@
-﻿@* @page "/todo"
+﻿@page "/todo"
+@rendermode InteractiveServer
 
-<div class="todo-viewport">
-    <div class="glow-layer"></div>
-    
-    <div class="aesthetic-card">
+<div class="dashboard-viewport">
+    <div class="premium-dark-card">
         <div class="card-header">
-            <h2>Task Hub</h2>
-            <p>Manage your dynamic workspace entries</p>
+            <h2>Simple To-Do List</h2>
+            <p>Add and manage your tasks instantly</p>
         </div>
 
-        <div class="input-container">
+        <div class="input-row">
             <input type="text"
                    @bind="newTask"
                    @bind:event="oninput"
-                   @onkeydown="SubmitOnEnter"
-                   placeholder="Track a new milestone..."
-                   class="gradient-input" />
-            <button class="btn-gradient-add" @onclick="AddTask" disabled="@string.IsNullOrWhiteSpace(newTask)">
+                   @onkeydown="HandleKeyDown"
+                   placeholder="Add a new task..."
+                   class="dark-input" />
+            <button class="add-action-btn" @onclick="AddTask" disabled="@string.IsNullOrWhiteSpace(newTask)">
                 Add
             </button>
         </div>
 
-        <hr class="neon-divider" />
-
-        <div class="task-display-area">
+        <div class="list-display-container">
             @if (tasks.Count == 0)
             {
-                <div class="empty-state-view">
-                    <p class="fade-text">Your stream is completely clear.</p>
+                <div class="empty-list-box">
+                    <p>Your list is completely clear.</p>
                 </div>
             }
             else
             {
-                <div class="meta-stream-info">
-                    <span class="meta-label">Pending Streams</span>
-                    <span class="neon-badge">@tasks.Count Nodes</span>
+                <div class="list-header-meta">
+                    <span>Total Tasks</span>
+                    <span class="count-pill">@tasks.Count Items</span>
                 </div>
                 
-                <ul class="premium-list">
+                <ul class="task-items-container">
                     @foreach (var task in tasks)
                     {
-                        <li class="premium-item">
-                            <span class="bullet-accent"></span>
-                            <span class="item-display-text">@task</span>
+                        <li class="single-task-row">
+                            <span class="bullet-glow"></span>
+                            <span class="task-string-value">@task</span>
                         </li>
                     }
                 </ul>
@@ -51,8 +48,8 @@
 
         @if (tasks.Count > 0)
         {
-            <button class="btn-neon-outline" @onclick="ClearAllTasks">
-                Flush Workspace Data
+            <button class="action-btn-main btn-glow-red" @onclick="ClearList">
+                Clear All Tasks
             </button>
         }
     </div>
@@ -71,7 +68,7 @@
         }
     }
 
-    private void SubmitOnEnter(KeyboardEventArgs e)
+    private void HandleKeyDown(KeyboardEventArgs e)
     {
         if (e.Key == "Enter")
         {
@@ -79,92 +76,7 @@
         }
     }
 
-    private void ClearAllTasks()
-    {
-        tasks.Clear();
-    }
-} *@
-
-@page "/todo"  
-@rendermode InteractiveServer
-<div class="aesthetic-viewport layer-rose">
-    <div class="glass-dashboard-card">
-        <div class="brand-badge">ASYNC QUEUE ENG</div>
-
-        <div class="dashboard-header">
-            <h1>Task Blueprint</h1>
-            <p>Dynamic sequence array mutation sandbox</p>
-        </div>
-
-        <div class="input-hub-layout">
-            <input type="text"
-                   @bind="newTask"
-                   @bind:event="oninput"
-                   @onkeydown="MonitorKeydown"
-                   placeholder="Deploy new item array..."
-                   class="premium-glass-input" />
-            <button class="square-add-btn" @onclick="AddTask" disabled="@string.IsNullOrWhiteSpace(newTask)">
-                <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M8 1v14M1 8h14" /></svg>
-            </button>
-        </div>
-
-        <div class="stream-container">
-            @if (tasks.Count == 0)
-            {
-                <div class="empty-vector-state">
-                    <p>Buffer clear. No structural nodes detected.</p>
-                </div>
-            }
-            else
-            {
-                <div class="stream-metrics">
-                    <span class="metric-title">Active Nodes</span>
-                    <span class="count-pill">@tasks.Count Allocation</span>
-                </div>
-                
-                <ul class="dynamic-node-stream">
-                    @foreach (var task in tasks)
-                    {
-                        <li class="node-item">
-                            <span class="node-accent-line"></span>
-                            <span class="node-string">@task</span>
-                        </li>
-                    }
-                </ul>
-            }
-        </div>
-
-        @if (tasks.Count > 0)
-        {
-            <button class="core-action-btn btn-danger" @onclick="FlushStream">
-                Flush Allocation Memory
-            </button>
-        }
-    </div>
-</div>
-
-@code {
-    private string newTask = string.Empty;
-    private List<string> tasks = new();
-
-    private void AddTask()
-    {
-        if (!string.IsNullOrWhiteSpace(newTask))
-        {
-            tasks.Add(newTask.Trim());
-            newTask = string.Empty;
-        }
-    }
-
-    private void MonitorKeydown(KeyboardEventArgs e)
-    {
-        if (e.Key == "Enter")
-        {
-            AddTask();
-        }
-    }
-
-    private void FlushStream()
+    private void ClearList()
     {
         tasks.Clear();
     }
