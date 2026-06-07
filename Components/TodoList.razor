@@ -1,44 +1,48 @@
 ﻿@page "/todo"
-
-<div class="app-viewport">
-    <div class="todo-glass-card">
-        <div class="brand-header">
-            <h2>Workspace</h2>
-            <span class="pulse-dot"></span>
+@rendermode InteractiveServer
+<div class="todo-viewport">
+    <div class="glow-layer"></div>
+    
+    <div class="aesthetic-card">
+        <div class="card-header">
+            <h2>Task Hub</h2>
+            <p>Manage your dynamic workspace entries</p>
         </div>
 
-        <div class="input-hub">
+        <div class="input-container">
             <input type="text"
                    @bind="newTask"
                    @bind:event="oninput"
                    @onkeydown="SubmitOnEnter"
-                   placeholder="Review architectural patterns..."
-                   class="premium-input" />
-            <button class="action-trigger add-node" @onclick="AddTask" disabled="@string.IsNullOrWhiteSpace(newTask)">
-                <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M8 1v14M1 8h14" /></svg>
+                   placeholder="Track a new milestone..."
+                   class="gradient-input" />
+            <button class="btn-gradient-add" @onclick="AddTask" disabled="@string.IsNullOrWhiteSpace(newTask)">
+                Add
             </button>
         </div>
 
-        <div class="workspace-body">
+        <hr class="neon-divider" />
+
+        <div class="task-display-area">
             @if (tasks.Count == 0)
             {
-                <div class="void-state">
-                    <div class="void-icon">//</div>
-                    <p>Stack is empty. Secure a clean workflow.</p>
+                <div class="empty-state-view">
+                    <p class="fade-text">Your stream is completely clear.</p>
                 </div>
             }
             else
             {
-                <div class="metrics-bar">
-                    <span>Active Nodes</span>
-                    <span class="counter-badge">@tasks.Count</span>
+                <div class="meta-stream-info">
+                    <span class="meta-label">Pending Streams</span>
+                    <span class="neon-badge">@tasks.Count Nodes</span>
                 </div>
                 
-                <ul class="node-stream">
+                <ul class="premium-list">
                     @foreach (var task in tasks)
                     {
-                        <li class="stream-item">
-                            <span class="item-text">@task</span>
+                        <li class="premium-item">
+                            <span class="bullet-accent"></span>
+                            <span class="item-display-text">@task</span>
                         </li>
                     }
                 </ul>
@@ -47,11 +51,9 @@
 
         @if (tasks.Count > 0)
         {
-            <div class="card-footer">
-                <button class="action-trigger flush-stream" @onclick="ClearAllTasks">
-                    Flush Dynamic List
-                </button>
-            </div>
+            <button class="btn-neon-outline" @onclick="ClearAllTasks">
+                Flush Workspace Data
+            </button>
         }
     </div>
 </div>
