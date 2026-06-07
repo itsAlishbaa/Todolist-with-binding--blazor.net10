@@ -1,5 +1,5 @@
-﻿@page "/todo"
-@rendermode InteractiveServer
+﻿@* @page "/todo"
+
 <div class="todo-viewport">
     <div class="glow-layer"></div>
     
@@ -80,6 +80,91 @@
     }
 
     private void ClearAllTasks()
+    {
+        tasks.Clear();
+    }
+} *@
+
+@page "/todo"
+@rendermode InteractiveServer
+<div class="aesthetic-viewport layer-rose">
+    <div class="glass-dashboard-card">
+        <div class="brand-badge">ASYNC QUEUE ENG</div>
+
+        <div class="dashboard-header">
+            <h1>Task Blueprint</h1>
+            <p>Dynamic sequence array mutation sandbox</p>
+        </div>
+
+        <div class="input-hub-layout">
+            <input type="text"
+                   @bind="newTask"
+                   @bind:event="oninput"
+                   @onkeydown="MonitorKeydown"
+                   placeholder="Deploy new item array..."
+                   class="premium-glass-input" />
+            <button class="square-add-btn" @onclick="AddTask" disabled="@string.IsNullOrWhiteSpace(newTask)">
+                <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M8 1v14M1 8h14" /></svg>
+            </button>
+        </div>
+
+        <div class="stream-container">
+            @if (tasks.Count == 0)
+            {
+                <div class="empty-vector-state">
+                    <p>Buffer clear. No structural nodes detected.</p>
+                </div>
+            }
+            else
+            {
+                <div class="stream-metrics">
+                    <span class="metric-title">Active Nodes</span>
+                    <span class="count-pill">@tasks.Count Allocation</span>
+                </div>
+                
+                <ul class="dynamic-node-stream">
+                    @foreach (var task in tasks)
+                    {
+                        <li class="node-item">
+                            <span class="node-accent-line"></span>
+                            <span class="node-string">@task</span>
+                        </li>
+                    }
+                </ul>
+            }
+        </div>
+
+        @if (tasks.Count > 0)
+        {
+            <button class="core-action-btn btn-danger" @onclick="FlushStream">
+                Flush Allocation Memory
+            </button>
+        }
+    </div>
+</div>
+
+@code {
+    private string newTask = string.Empty;
+    private List<string> tasks = new();
+
+    private void AddTask()
+    {
+        if (!string.IsNullOrWhiteSpace(newTask))
+        {
+            tasks.Add(newTask.Trim());
+            newTask = string.Empty;
+        }
+    }
+
+    private void MonitorKeydown(KeyboardEventArgs e)
+    {
+        if (e.Key == "Enter")
+        {
+            AddTask();
+        }
+    }
+
+    private void FlushStream()
     {
         tasks.Clear();
     }
